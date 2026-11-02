@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Present Continuous — Interactive Lesson</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
+    min-height: 700px;
+  }
+  .slide {
+    display: none;
+    padding: 50px 60px;
+    min-height: 700px;
+    animation: fadeIn 0.5s ease;
+  }
+  .slide.active { display: flex; flex-direction: column; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1 { font-size: 3.2rem; color: #2d3748; margin-bottom: 20px; line-height: 1.2; }
+  h2 { font-size: 2.5rem; color: #4c51bf; margin-bottom: 25px; }
+  h3 { font-size: 2rem; color: #2d3748; margin-bottom: 20px; }
+  p, li { font-size: 1.6rem; color: #4a5568; line-height: 1.6; margin-bottom: 15px; }
+  .highlight {
+    background: linear-gradient(120deg, #fef08a 0%, #fde047 100%);
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #713f12;
+  }
+  .formula-box {
+    background: linear-gradient(135deg, #4c51bf, #667eea);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(76, 81, 191, 0.4);
+  }
+  .formula-box .small { font-size: 1.4rem; opacity: 0.9; margin-top: 15px; font-weight: 400; }
+  .card {
+    background: #f7fafc;
+    border-left: 6px solid #4c51bf;
+    padding: 25px 30px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-size: 1.5rem;
+  }
+  .card .emoji { font-size: 2.5rem; margin-right: 15px; }
+  .question-class {
+    background: linear-gradient(135deg, #fed7aa, #fdba74);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 25px 0;
+    border: 3px dashed #c2410c;
+  }
+  .question-class::before {
+    content: "💬 DISCUSS WITH THE CLASS";
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c2410c;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .question-class p { font-size: 1.7rem; color: #7c2d12; font-weight: 600; margin: 0; }
+  .btn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 30px;
+    border-top: 2px solid #e2e8f0;
+  }
+  .btn {
+    padding: 18px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-next { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+  .btn-back { background: #e2e8f0; color: #475569; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .progress {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: #e2e8f0;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    color: #475569;
+    font-weight: 600;
+  }
+  .title-slide {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .title-slide h1 { color: white; font-size: 4rem; }
+  .title-slide .subtitle { font-size: 2rem; opacity: 0.9; margin: 20px 0; }
+  .title-slide .hook {
+    background: rgba(255,255,255,0.15);
+    padding: 30px 40px;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    margin-top: 30px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .scene {
+    background: #f0f9ff;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+  .scene .icon { font-size: 6rem; }
+  .scene .text { flex: 1; }
+  .timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7fafc;
+    padding: 30px;
+    border-radius: 20px;
+    margin: 25px 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 6px;
+    background: linear-gradient(90deg, #10b981, #4c51bf, #ec4899);
+    border-radius: 3px;
+    z-index: 0;
+  }
+  .timeline .point {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.3rem;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .timeline .point.now {
+    background: #4c51bf;
+    color: white;
+    transform: scale(1.1);
+  }
+  .options { display: grid; gap: 15px; margin: 20px 0; }
+  .option {
+    background: #f7fafc;
+    border: 3px solid #e2e8f0;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+  }
+  .option:hover { border-color: #4c51bf; background: #eef2ff; transform: translateX(5px); }
+  .option.correct { background: #d1fae5; border-color: #10b981; color: #065f46; }
+  .option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+  .option.disabled { pointer-events: none; }
+  .feedback {
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s; }
+  .feedback.success { background: #d1fae5; color: #065f46; }
+  .feedback.error { background: #fee2e2; color: #991b1b; }
+  .match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+  .match-col { display: flex; flex-direction: column; gap: 12px; }
+  .match-item {
+    background: #f7fafc;
+    border: 3px solid #e2e8f0;
+    padding: 18px 25px;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .match-item.selected { background: #dbeafe; border-color: #3b82f6; }
+  .match-item.matched { background: #d1fae5; border-color: #10b981; pointer-events: none; }
+  .reveal-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: all 0.3s;
+  }
+  .reveal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(245, 158, 11, 0.4); }
+  .hidden-answer {
+    background: #fef3c7;
+    padding: 25px;
+    border-radius: 15px;
+    margin: 15px 0;
+    font-size: 1.4rem;
+    border: 3px dashed #d97706;
+    display: none;
+  }
+  .hidden-answer.show { display: block; animation: fadeIn 0.4s; }
+  .change-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .word-tag {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    padding: 12px 22px;
+    border-radius: 25px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  .final-task {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 20px 0;
+    border: 3px solid #f59e0b;
+  }
+  .final-task textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 20px;
+    font-size: 1.3rem;
+    border: 3px solid #f59e0b;
+    border-radius: 12px;
+    margin-top: 15px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  .examples-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .example-item {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid #4c51bf;
+    font-size: 1.3rem;
+  }
+  .example-item .label {
+    font-size: 1rem;
+    color: #4c51bf;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="progress" id="progress">Slide 1 / 14</div>
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide title-slide active">
+    <h1>Present Continuous</h1>
+    <div class="subtitle">I am doing</div>
+    <div class="hook">
+      🤔 <strong>Think about it:</strong><br>
+      What are you doing <em>right now</em> — and what did you start doing this week but haven't finished yet?
+    </div>
+    <p style="margin-top: 40px; font-size: 1.3rem; opacity: 0.8;">Unit 1 · English Grammar in Use</p>
+  </div>
+
+  <!-- SLIDE 2: Sarah's situation -->
+  <div class="slide">
+    <h2>🚗 Look at this situation</h2>
+    <div class="scene">
+      <div class="icon">🚗</div>
+      <div class="text">
+        <p><strong>Sarah is in her car.</strong></p>
+        <p>She is on her way to work.</p>
+        <p style="font-size: 2rem; color: #4c51bf; font-weight: 700; margin-top: 15px;">
+          She <span class="highlight">'s driving</span> to work.
+        </p>
+      </div>
+    </div>
+    <p style="font-size: 1.5rem;">This means: she is driving <strong>now</strong>, at the time of speaking.</p>
+    <p style="font-size: 1.5rem;">The action is <span class="highlight">not finished</span>.</p>
+    <div class="question-class">
+      <p>What are YOU doing right now? (sitting? listening? thinking?)</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Formula -->
+  <div class="slide">
+    <h2>📐 The Formula</h2>
+    <div class="formula-box">
+      am / is / are + verb-ing
+      <div class="small">This is the <strong>Present Continuous</strong></div>
+    </div>
+    <div class="examples-grid">
+      <div class="example-item">
+        <div class="label">I</div>
+        <div><strong>am</strong> driving (= I'm)</div>
+      </div>
+      <div class="example-item">
+        <div class="label">He / She / It</div>
+        <div><strong>is</strong> working (= he's)</div>
+      </div>
+      <div class="example-item">
+        <div class="label">We / You / They</div>
+        <div><strong>are</strong> doing (= we're)</div>
+      </div>
+      <div class="example-item">
+        <div class="label">Examples</div>
+        <div>reading, working, playing</div>
+      </div>
+    </div>
+    <div class="question-class">
+      <p>Make a sentence about yourself using "I am + -ing". What are you doing at this moment?</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Steve's situation -->
+  <div class="slide">
+    <h2>📱 A tricky situation</h2>
+    <div class="scene">
+      <div class="icon">📱</div>
+      <div class="text">
+        <p>Steve is talking to a friend on the phone.</p>
+        <p>He says: <em>"I'm reading a really good book."</em></p>
+      </div>
+    </div>
+    <p style="font-size: 1.5rem;">⚠️ But Steve is <strong>NOT</strong> reading the book at the moment of speaking!</p>
+    <div class="card">
+      <p>💡 He means: <strong>he has started</strong> reading the book, but <strong>has not finished</strong> it yet.</p>
+      <p>He is <em>in the middle of</em> reading it.</p>
+    </div>
+    <div class="question-class">
+      <p>What TV series are you watching these days? (You're not watching it right now, but you've started it!)</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Timeline -->
+  <div class="slide">
+    <h2>⏳ The Key Idea</h2>
+    <div class="card" style="font-size: 1.7rem; text-align: center; background: #eef2ff;">
+      <strong>I am doing something</strong> =<br>
+      I <strong>started</strong> doing it and I <strong>haven't finished</strong>;<br>
+      I'm <span class="highlight">in the middle</span> of doing it.
+    </div>
+    <div class="timeline">
+      <div class="point">🟢 STARTED<br><small>in the past</small></div>
+      <div class="point now">⚡ NOW<br><small>in the middle</small></div>
+      <div class="point">🔴 NOT FINISHED<br><small>in the future</small></div>
+    </div>
+    <p style="font-size: 1.4rem;">Look at these examples:</p>
+    <div class="examples-grid">
+      <div class="example-item">
+        <div class="label">Now</div>
+        Please don't make noise. <strong>I'm trying</strong> to work.
+      </div>
+      <div class="example-item">
+        <div class="label">Now</div>
+        Where's Mark? <strong>He's having</strong> a shower.
+      </div>
+      <div class="example-item">
+        <div class="label">Now</div>
+        Let's go out. <strong>It isn't raining</strong> any more.
+      </div>
+      <div class="example-item">
+        <div class="label">Now</div>
+        What's all that noise? What <strong>is happening</strong>?
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Section B - not at the moment -->
+  <div class="slide">
+    <h2>🌍 Not always at this exact moment</h2>
+    <p style="font-size: 1.5rem;">Sometimes the action is <strong>not happening right now</strong>, but it's <em>in progress</em> in your life.</p>
+    <div class="scene">
+      <div class="icon">🇮🇹</div>
+      <div class="text">
+        <p><strong>Kate</strong> wants to work in Italy,</p>
+        <p style="font-size: 1.8rem; color: #4c51bf; font-weight: 700;">so <span class="highlight">she's learning</span> Italian.</p>
+        <p style="font-size: 1.2rem; color: #718096;">(but perhaps she isn't learning Italian at this exact moment)</p>
+      </div>
+    </div>
+    <div class="card">
+      <p>🏠 <strong>Some friends of mine are building</strong> their own house.</p>
+      <p style="font-size: 1.2rem; color: #718096;">They hope to finish it next summer.</p>
+    </div>
+    <div class="question-class">
+      <p>What are you learning these days? (a language? a skill? a musical instrument?)</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Section C - periods around now -->
+  <div class="slide">
+    <h2>📅 Periods around NOW</h2>
+    <p style="font-size: 1.5rem;">We use Present Continuous with:</p>
+    <div class="change-words">
+      <div class="word-tag">today</div>
+      <div class="word-tag">this week</div>
+      <div class="word-tag">this year</div>
+      <div class="word-tag">this month</div>
+    </div>
+    <div class="examples-grid">
+      <div class="example-item">
+        <div class="label">Today</div>
+        <strong>You're working</strong> hard today.<br>
+        <small>(not "You work hard today")</small>
+      </div>
+      <div class="example-item">
+        <div class="label">This year</div>
+        The company I work for <strong>isn't doing</strong> so well this year.
+      </div>
+    </div>
+    <div class="question-class">
+      <p>What are you working on <strong>this week</strong>? What's happening in your life <strong>today</strong>?</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Section D - changes -->
+  <div class="slide">
+    <h2>📈 Talking about CHANGES</h2>
+    <p style="font-size: 1.5rem;">We use Present Continuous when something <strong>has started to change</strong>.</p>
+    <p style="font-size: 1.3rem;">We often use these verbs:</p>
+    <div class="change-words">
+      <div class="word-tag">getting</div>
+      <div class="word-tag">becoming</div>
+      <div class="word-tag">changing</div>
+      <div class="word-tag">improving</div>
+      <div class="word-tag">starting</div>
+      <div class="word-tag">beginning</div>
+      <div class="word-tag">increasing</div>
+      <div class="word-tag">rising</div>
+      <div class="word-tag">falling</div>
+      <div class="word-tag">growing</div>
+    </div>
+    <div class="examples-grid">
+      <div class="example-item">
+        <div class="label">Example 1</div>
+        <strong>Is your English getting</strong> better?<br>
+        <small>(not "Does your English get better?")</small>
+      </div>
+      <div class="example-item">
+        <div class="label">Example 2</div>
+        The population of the world <strong>is increasing</strong> very fast.
+      </div>
+      <div class="example-item">
+        <div class="label">Example 3</div>
+        At first I didn't like my job, but <strong>I'm starting</strong> to enjoy it now.
+      </div>
+      <div class="example-item">
+        <div class="label">Example 4</div>
+        Look at those clouds! It's <strong>getting</strong> dark.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Interactive Quiz 1 -->
+  <div class="slide">
+    <h2>🎯 Quiz Time! Choose the correct option</h2>
+    <p style="font-size: 1.5rem;">1. "Where's Anna?" — "She ___ a shower."</p>
+    <div class="options" id="q1">
+      <div class="option" data-correct="false">has</div>
+      <div class="option" data-correct="true">is having</div>
+      <div class="option" data-correct="false">haves</div>
+    </div>
+    <div class="feedback" id="f1"></div>
+
+    <p style="font-size: 1.5rem; margin-top: 25px;">2. "What's all that noise? What ___ ?"</p>
+    <div class="options" id="q2">
+      <div class="option" data-correct="false">happens</div>
+      <div class="option" data-correct="false">happen</div>
+      <div class="option" data-correct="true">is happening</div>
+    </div>
+    <div class="feedback" id="f2"></div>
+
+    <button class="reveal-btn" onclick="checkQuiz()">✓ Check my answers</button>
+  </div>
+
+  <!-- SLIDE 10: Matching -->
+  <div class="slide">
+    <h2>🔗 Match the situations</h2>
+    <p style="font-size: 1.3rem; color: #4a5568;">Click a sentence on the left, then click its meaning on the right.</p>
+    <div class="match-container">
+      <div class="match-col" id="leftCol">
+        <div class="match-item" data-pair="1">"I'm learning Spanish"</div>
+        <div class="match-item" data-pair="2">"She's building a house"</div>
+        <div class="match-item" data-pair="3">"It's getting cold"</div>
+        <div class="match-item" data-pair="4">"I'm reading a great book"</div>
+      </div>
+      <div class="match-col" id="rightCol">
+        <div class="match-item" data-pair="3">The temperature is changing now</div>
+        <div class="match-item" data-pair="1">I started and haven't finished</div>
+        <div class="match-item" data-pair="4">I started it but I'm not reading now</div>
+        <div class="match-item" data-pair="2">It's in progress, not finished yet</div>
+      </div>
+    </div>
+    <div class="feedback" id="matchFeedback"></div>
+  </div>
+
+  <!-- SLIDE 11: Think & Reveal -->
+  <div class="slide">
+    <h2>💭 Think first, then reveal</h2>
+    <div class="card">
+      <p><strong>Question:</strong> Your friend asks: "What are you doing these days?"</p>
+      <p>Write 2-3 sentences about yourself using Present Continuous.</p>
+    </div>
+    <p style="font-size: 1.3rem; color: #718096; margin: 15px 0;">Think about: your studies, hobbies, projects, things you're learning...</p>
+    <button class="reveal-btn" onclick="showExample()">💡 Show example answer</button>
+    <div class="hidden-answer" id="exampleAnswer">
+      <strong>Example answer:</strong><br>
+      "I'm studying English at the moment. I'm also learning to play the guitar. And I'm reading a very interesting book about space."
+    </div>
+    <div class="question-class">
+      <p>Now share your sentences with the class! Who is doing the most interesting things?</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: Spot the mistake -->
+  <div class="slide">
+    <h2>🔍 Spot the mistake!</h2>
+    <p style="font-size: 1.4rem;">Which sentence is <strong>WRONG</strong>? Click it.</p>
+    <div class="options" id="mistakeQuiz">
+      <div class="option" data-correct="false">I'm trying to work, please be quiet.</div>
+      <div class="option" data-correct="true">The population of the world increases very fast.</div>
+      <div class="option" data-correct="false">Kate is learning Italian because she wants to work in Italy.</div>
+      <div class="option" data-correct="false">It isn't raining any more, let's go out.</div>
+    </div>
+    <div class="feedback" id="mistakeFeedback"></div>
+    <button class="reveal-btn" onclick="checkMistake()">✓ Check</button>
+  </div>
+
+  <!-- SLIDE 13: Final Task -->
+  <div class="slide">
+    <h2>🏆 Final Challenge</h2>
+    <div class="final-task">
+      <h3 style="color: #92400e;">Write about your classmate</h3>
+      <p style="color: #78350f; font-size: 1.3rem;">Think of someone in this class. Write 4-5 sentences about what they are doing <strong>these days</strong> (not right now!).</p>
+      <p style="color: #78350f; font-size: 1.2rem;">Use: learning, studying, reading, working on, getting better at, trying to...</p>
+      <textarea placeholder="Example: Maria is learning to play the piano these days. She's practising every evening..."></textarea>
+    </div>
+    <button class="reveal-btn" onclick="showChecklist()">✓ Show checklist for self-check</button>
+    <div class="hidden-answer" id="checklist">
+      <strong>Check your sentences:</strong><br>
+      ✅ Did you use <strong>am/is/are + -ing</strong>?<br>
+      ✅ Are you talking about something <strong>in progress</strong> (not finished)?<br>
+      ✅ Did you use words like <em>these days, at the moment, now</em>?
+    </div>
+  </div>
+
+  <!-- SLIDE 14: Summary -->
+  <div class="slide title-slide">
+    <h1 style="font-size: 3rem;">📝 Summary</h1>
+    <div style="text-align: left; background: rgba(255,255,255,0.15); padding: 30px 40px; border-radius: 20px; margin-top: 20px; backdrop-filter: blur(10px);">
+      <p style="font-size: 1.5rem; margin-bottom: 15px;">🔹 <strong>Form:</strong> am / is / are + verb-ing</p>
+      <p style="font-size: 1.5rem; margin-bottom: 15px;">🔹 <strong>Meaning:</strong> action in progress, not finished</p>
+      <p style="font-size: 1.5rem; margin-bottom: 15px;">🔹 <strong>Use for:</strong></p>
+      <ul style="font-size: 1.3rem; margin-left: 30px; line-height: 1.8;">
+        <li>actions happening NOW</li>
+        <li>actions in progress around now (today, this week)</li>
+        <li>changes (getting, becoming, improving...)</li>
+      </ul>
+    </div>
+    <p style="margin-top: 30px; font-size: 1.5rem;">🎉 Great job! What are you going to learn next?</p>
+  </div>
+
+  <!-- Navigation -->
+  <div class="btn-row" style="padding: 20px 60px 30px;">
+    <button class="btn btn-back" id="backBtn" onclick="prevSlide()">← Back</button>
+    <button class="btn btn-next" id="nextBtn" onclick="nextSlide()">Next →</button>
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+
+  function showSlide(n) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[n].classList.add('active');
+    document.getElementById('progress').textContent = `Slide ${n+1} / ${totalSlides}`;
+    document.getElementById('backBtn').disabled = n === 0;
+    document.getElementById('nextBtn').disabled = n === totalSlides - 1;
+    window.scrollTo(0, 0);
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  }
+
+  // Quiz 1
+  function checkQuiz() {
+    ['q1', 'q2'].forEach((qid, idx) => {
+      const q = document.getElementById(qid);
+      const options = q.querySelectorAll('.option');
+      const fb = document.getElementById('f' + (idx+1));
+      let answered = false;
+      options.forEach(opt => {
+        opt.classList.add('disabled');
+        if (opt.dataset.correct === 'true') {
+          opt.classList.add('correct');
+        } else if (opt.classList.contains('selected')) {
+          opt.classList.add('wrong');
+        }
+      });
+      const correctSelected = q.querySelector('.option.correct.selected') || 
+                              (Array.from(options).some(o => o.dataset.correct === 'true' && o.classList.contains('selected')));
+      const anySelected = q.querySelector('.option.selected');
+      if (anySelected) {
+        const isCorrect = anySelected.dataset.correct === 'true';
+        fb.className = 'feedback show ' + (isCorrect ? 'success' : 'error');
+        fb.textContent = isCorrect ? '✅ Correct! Well done!' : '❌ Not quite. Look at the green answer.';
+      }
+    });
+  }
+
+  document.querySelectorAll('#q1 .option, #q2 .option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const parent = this.parentElement;
+      parent.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+
+  // Matching
+  let selectedLeft = null;
+  let matchedCount = 0;
+  document.querySelectorAll('#leftCol .match-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('#leftCol .match-item').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedLeft = this;
+    });
+  });
+  document.querySelectorAll('#rightCol .match-item').forEach(item => {
+    item.addEventListener('click', function() {
+      if (!selectedLeft) return;
+      if (selectedLeft.dataset.pair === this.dataset.pair) {
+        selectedLeft.classList.add('matched');
+        selectedLeft.classList.remove('selected');
+        this.classList.add('matched');
+        matchedCount++;
+        if (matchedCount === 4) {
+          const fb = document.getElementById('matchFeedback');
+          fb.className = 'feedback show success';
+          fb.textContent = '🎉 Excellent! All matched correctly!';
+        }
+      } else {
+        this.style.background = '#fee2e2';
+        setTimeout(() => { this.style.background = ''; }, 600);
+      }
+      selectedLeft = null;
+    });
+  });
+
+  // Reveal functions
+  function showExample() {
+    document.getElementById('exampleAnswer').classList.add('show');
+  }
+
+  // Mistake quiz
+  document.querySelectorAll('#mistakeQuiz .option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      document.querySelectorAll('#mistakeQuiz .option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+
+  function checkMistake() {
+    const options = document.querySelectorAll('#mistakeQuiz .option');
+    const fb = document.getElementById('mistakeFeedback');
+    options.forEach(opt => {
+      opt.classList.add('disabled');
+      if (opt.dataset.correct === 'true') opt.classList.add('correct');
+      else if (opt.classList.contains('selected')) opt.classList.add('wrong');
+    });
+    const selected = document.querySelector('#mistakeQuiz .option.selected');
+    if (selected) {
+      const isCorrect = selected.dataset.correct === 'true';
+      fb.className = 'feedback show ' + (isCorrect ? 'success' : 'error');
+      fb.innerHTML = isCorrect 
+        ? '✅ Correct! "Increases" is Present Simple. For changes happening around now, we need Present Continuous: <strong>"is increasing"</strong>.'
+        : '❌ Look at the green answer. Remember: for changes, we use Present Continuous!';
+    }
+  }
+
+  function showChecklist() {
+    document.getElementById('checklist').classList.add('show');
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  showSlide(0);
+</script>
+</body>
+</html>
